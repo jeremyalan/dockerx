@@ -26,7 +26,9 @@ async function execute() {
             `docker run`,
             `--rm`,
             `-t`,
-            `$(tty &>/dev/null && echo "-i")`,
+            process.platform === 'win32'
+               ? '-i'
+               : `$(tty &>/dev/null && echo "-i")`,
             `-v ${ process.cwd() }:${ cwd }`,
             (commandConfig.volumes || []).map((volumeConfig) => {
                return `-v ${ volumeConfig.source }:${ volumeConfig.dest }`
