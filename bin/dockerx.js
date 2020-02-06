@@ -33,6 +33,10 @@ async function execute() {
             (commandConfig.volumes || []).map((volumeConfig) => {
                return `-v ${ volumeConfig.source }:${ volumeConfig.dest }`
             }).join(' '),
+            Object.keys(commandConfig.env || {}).map((key) => {
+               const value = commandConfig.env[key];
+               return `-e ${key}=${value}`;
+            }).join(' '),
             `-w ${ cwd }`,
             commandConfig.image,
             commandConfig.command,
